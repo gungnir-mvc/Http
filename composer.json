@@ -1,0 +1,17 @@
+{
+    "name": "gungnir-mvc/http",
+    "description": "HTTP library for gungnir-mvc",
+    "type": "library",
+        "require": {},
+        "require-dev": {
+                "phpunit/phpunit": "5.5.*",
+                "phpspec/prophecy": "~1.0"
+                },
+        "autoload": {
+        "psr-4": { "Gungnir\\HTTP\\": "src/" },
+        "exclude-from-classmap": [
+            "/tests/"
+        ]
+    }
+
+}
