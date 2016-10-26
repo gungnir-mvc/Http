@@ -48,14 +48,12 @@ class Route
      */
     public static function find(String $uri)
     {
-        $route = null;
         foreach (static::$routes as $name => $route) {
             if ($route->match($uri)) {
-                break;
+                return $route;
             }
-            $route = null;
         }
-        return $route;
+        return null;
     }
 
     /**
@@ -70,15 +68,14 @@ class Route
         $uri = $this->parseUri($uri);
         $uri_pieces     = empty(trim($uri, '/')) ? [] : explode('/', trim($uri, '/'));
         $route_pieces     = explode('/', ltrim($this->uri, '/'));
-        $matching         = true;
+        
         foreach ($route_pieces as $key => $value) {
             if ($this->matchPieces($key, $value, $uri_pieces) === false) {
-                $matching = false;
                 $this->parameters = array();
-                break;
+                return false;
             }
         }
-        return $matching;
+        return true;
     }
 
     /**
