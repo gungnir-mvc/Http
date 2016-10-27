@@ -7,6 +7,8 @@ class ParameterBag
     private $parameters = array();
 
     /**
+     * Constructor
+     * 
      * @param array|null $parameters If array is passed it will be set as parameters
      */
     public function __construct(array $parameters = null)
@@ -20,6 +22,7 @@ class ParameterBag
      * Checks if a certain parameter is registered
      *
      * @param  String  $name Name of parameter to check for
+     * 
      * @return boolean
      */
     public function has(String $name)
@@ -31,7 +34,8 @@ class ParameterBag
      * Retrieves the parameter stored under name
      *
      * @param  String $name Name of parameter to get
-     * @return Mixed Who Knows?
+     * 
+     * @return Mixed
      */
     public function get(String $name)
     {
@@ -43,6 +47,7 @@ class ParameterBag
      *
      * @param String $name Name to store parameter under
      * @param mixed  $item Parameter to store
+     * 
      * @return ParameterBag
      */
     public function set(String $name, $item) : ParameterBag
@@ -53,7 +58,9 @@ class ParameterBag
 
     /**
      * Removes parameter by specified name
+     * 
      * @param  String $name Name of parameter to delete
+     * 
      * @return ParameterBag
      */
     public function delete(String $name) : ParameterBag
@@ -68,7 +75,7 @@ class ParameterBag
     /**
      * Get all current parameters in bag
      *
-     * @return array All
+     * @return array
      */
     public function parameters()
     {

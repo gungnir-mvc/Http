@@ -30,20 +30,20 @@ class Request
      * the class method `initialize` which converts arrays to ParameterBags
      * and binds them to class attributes
      *
-     * @param array $query         Query parameters
-     * @param array $request     Request/Post parameters
+     * @param array $query      Query parameters
+     * @param array $request    Request/Post parameters
      * @param array $parameters Route specific parameters
-     * @param array $cookies     Request cookies
-     * @param array $files         Request files
+     * @param array $cookies    Request cookies
+     * @param array $files      Request files
      * @param array $server     Server variables
      */
     public function __construct(
-        array $query         = array(),
-        array $request         = array(),
-        array $parameters     = array(),
-        array $cookies         = array(),
-        array $files         = array(),
-        array $server         = array()
+        array $query      = array(),
+        array $request    = array(),
+        array $parameters = array(),
+        array $cookies    = array(),
+        array $files      = array(),
+        array $server     = array()
         )
     {
         $this->initialize($query, $request, $parameters, $cookies, $files, $server);
@@ -63,20 +63,21 @@ class Request
      * @return Request
      */
     public function initialize(
-        array $query         = array(),
-        array $request         = array(),
-        array $parameters     = array(),
-        array $cookies         = array(),
-        array $files         = array(),
-        array $server         = array()
+        array $query      = array(),
+        array $request    = array(),
+        array $parameters = array(),
+        array $cookies    = array(),
+        array $files      = array(),
+        array $server     = array()
         )
     {
-        $this->query         = new ParameterBag($query);
-        $this->request         = new ParameterBag($request);
-        $this->parameters     = new ParameterBag($parameters);
-        $this->files         = new ParameterBag($files);
-        $this->cookies         = new ParameterBag($cookies);
-        $this->server         = new ParameterBag($server);
+        $this->query      = new ParameterBag($query);
+        $this->request    = new ParameterBag($request);
+        $this->parameters = new ParameterBag($parameters);
+        $this->files      = new ParameterBag($files);
+        $this->cookies    = new ParameterBag($cookies);
+        $this->server     = new ParameterBag($server);
+
         return $this;
     }
 
