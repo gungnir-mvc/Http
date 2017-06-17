@@ -1,18 +1,24 @@
 <?php
 namespace Gungnir\HTTP;
 
+use Gungnir\HTTP\Parser\UriParser;
+use Gungnir\HTTP\Parser\UriParserInterface;
+
 class Route
 {
     /** @var String $uri The request uri */
     private $uri = null;
 
-    /** @var Array $options All options for route */
+    /** @var array $options All options for route */
     private $options = null;
+
+    /** @var UriParserInterface */
+    private $uriParser = null;
 
     /** @var array $parameters All route specific parameters */
     private $parameters = array();
 
-    /** @var array $routes Array with route objects */
+    /** @var Route[] $routes Array with route objects */
     protected static $routes = array();
 
     /**
@@ -23,6 +29,25 @@ class Route
     {
         $this->uri = $uri;
         $this->options = $options;
+    }
+
+    /**
+     * @return UriParserInterface
+     */
+    public function getUriParser(): UriParserInterface
+    {
+        if (empty($this->uriParser)) {
+            $this->uriParser = new UriParser();
+        }
+        return $this->uriParser;
+    }
+
+    /**
+     * @param UriParserInterface $uriParser
+     */
+    public function setUriParser(UriParserInterface $uriParser)
+    {
+        $this->uriParser = $uriParser;
     }
 
     /**
@@ -65,7 +90,7 @@ class Route
      */
     public function match(String $uri) : bool
     {
-        $uri = $this->parseUri($uri);
+        $uri = $this->getUriParser()->parse($uri);
         $uri_pieces     = empty(trim($uri, '/')) ? [] : explode('/', trim($uri, '/'));
         $route_pieces     = explode('/', ltrim($this->uri, '/'));
         
@@ -147,24 +172,21 @@ class Route
     }
 
     /**
-     * Parses an uri to enable easier matching with route.
-     * Removes base directory in addition to index.php if present.
-     * Trailing slashes and queries.
+     * Checks whether or not passed action is valid based
+     * on defined actions in route configuration
      *
-     * @param  String $uri Incoming URI
-     * @return String      Modified URI
+     * @param String $action
+     *
+     * @return Bool
      */
-    private function parseUri(String $uri)
+    public function isActionValid(String $action) : Bool
     {
-        $uri = parse_url($uri,  PHP_URL_PATH);
+        $actions = (empty($this->option('actions'))) ? [] : $this->option('actions');
+        if (empty($actions) === false && in_array($action, $actions) === false) {
+            return false;
 
-        if (defined('BASE_DIR')) {
-            $uri = str_replace(BASE_DIR, '', $uri);
         }
-
-        $uri = str_replace('index.php', '', $uri);
-        $uri = trim($uri, '/');
-        return $uri;
+        return true;
     }
 
     /**
@@ -173,7 +195,7 @@ class Route
      *
      * @param  String $key        Route piece key
      * @param  Mixed  $value      Route piece to match
-     * @param  Array $uri_pieces  URI pieces to match with
+     * @param  array $uri_pieces  URI pieces to match with
      *
      * @return boolean True if piece is present else false
      */

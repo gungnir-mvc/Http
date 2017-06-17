@@ -5,7 +5,10 @@ use Gungnir\HTTP\Route;
 
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
-    public function testItRoutesUriToCorrectRoute()
+    /**
+     * @test
+     */
+    public function itRoutesUriCorrectly()
     {
         $route = new Route('/testRoute/:controller/:action', [
             'namespace' => '\Gungnir\Test\Controller\\',
@@ -28,5 +31,25 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('\Gungnir\Test\Controller\Customcontroller', $match2->controller());
         $this->assertEquals('Customaction', $match2->action());
+    }
+
+    /**
+     * @test
+     */
+    public function itValidatesActionCorrectly()
+    {
+        $route = new Route('/testRoute/:controller/:action', [
+            'namespace' => '\Gungnir\Test\Controller\\',
+            'actions'=> [
+                'getIndex'
+            ],
+            'defaults' => [
+                'controller' => 'index',
+                'action' => 'index'
+            ]
+        ]);
+
+        $this->assertTrue($route->isActionValid('getIndex'));
+        $this->assertFalse($route->isActionValid('getContainer'));
     }
 }
