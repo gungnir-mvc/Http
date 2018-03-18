@@ -2,8 +2,9 @@
 namespace Gungnir\HTTP\Tests;
 
 use Gungnir\HTTP\ParameterBag;
+use \PHPUnit\Framework\TestCase;
 
-class ParameterBagTest extends \PHPUnit_Framework_TestCase
+class ParameterBagTest extends TestCase
 {
     public function testItStoresAndRetrievesCorrectly()
     {

@@ -2,8 +2,9 @@
 namespace Gungnir\HTTP\Tests\Parser;
 
 use Gungnir\HTTP\Parser\UriParser;
+use \PHPUnit\Framework\TestCase;
 
-class UriParserTest extends \PHPUnit_Framework_TestCase
+class UriParserTest extends TestCase
 {
     /**
      * @test

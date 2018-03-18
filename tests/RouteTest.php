@@ -2,15 +2,32 @@
 namespace Gungnir\HTTP\Tests;
 
 use Gungnir\HTTP\Route;
+use \PHPUnit\Framework\TestCase;
 
-class RouteTest extends \PHPUnit_Framework_TestCase
+class RouteTest extends TestCase
 {
     /**
      * @test
+     * 
+     * @dataProvider uriRoutingProvider
      */
-    public function itRoutesUriCorrectly()
+    public function itRoutesUriCorrectly(Route $route, string $uri)
     {
-        $route = new Route('/testRoute/:controller/:action', [
+
+        Route::add('testingRoute', $route);
+
+        $match = Route::find($uri);
+
+        $this->assertEquals($route, $match);
+
+        $this->assertEquals($route->controller(), $match->controller());
+        $this->assertEquals($route->action(), $match->action());
+
+    }
+
+    public function uriRoutingProvider()
+    {
+        $route1 = new Route('/testRoute/:controller/:action', [
             'namespace' => '\Gungnir\Test\Controller\\',
             'defaults' => [
                 'controller' => 'index',
@@ -18,19 +35,18 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
-        Route::add('testRoute', $route);
+        $route2 = new Route('/', [
+            'namespace' => '\Gungnir\Test\Controller\\',
+            'defaults' => [
+                'controller' => 'index',
+                'action' => 'index'
+            ]
+        ]);
 
-        $match = Route::find('/testRoute');
-
-        $this->assertEquals($route, $match);
-
-        $this->assertEquals('\Gungnir\Test\Controller\Index', $match->controller());
-        $this->assertEquals('Index', $match->action());
-
-        $match2 = Route::find('/testRoute/customcontroller/customaction');
-
-        $this->assertEquals('\Gungnir\Test\Controller\Customcontroller', $match2->controller());
-        $this->assertEquals('Customaction', $match2->action());
+        return [
+            [$route1, "/testRoute"],
+            [$route2, "/"]
+        ];
     }
 
     /**

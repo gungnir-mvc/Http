@@ -2,8 +2,9 @@
 namespace Gungnir\HTTP\Tests;
 
 use Gungnir\HTTP\Response;
+use \PHPUnit\Framework\TestCase;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     public function testEmptyInstantiationResultsInEmpty200Response()
     {

@@ -2,8 +2,9 @@
 namespace Gungnir\HTTP\Tests;
 
 use Gungnir\HTTP\JsonResponse;
+use \PHPUnit\Framework\TestCase;
 
-class JsonResponseTest extends \PHPUnit_Framework_TestCase
+class JsonResponseTest extends TestCase
 {
     public function testItEncodesDataCorrectly()
     {

@@ -90,10 +90,19 @@ class Route
      */
     public function match(String $uri) : bool
     {
+
+        $explodeURI = function(string $uri): array {
+            $trimmedUri = trim($uri, '/');
+            if (empty($trimmedUri)) {
+                return [];
+            }
+            return explode('/', trim($uri, '/'));
+        };
+
         $uri = $this->getUriParser()->parse($uri);
-        $uri_pieces     = empty(trim($uri, '/')) ? [] : explode('/', trim($uri, '/'));
-        $route_pieces     = explode('/', ltrim($this->uri, '/'));
-        
+        $uri_pieces = $explodeURI($uri);
+        $route_pieces = $explodeURI($this->uri);
+
         foreach ($route_pieces as $key => $value) {
             if ($this->matchPieces($key, $value, $uri_pieces) === false) {
                 $this->parameters = array();

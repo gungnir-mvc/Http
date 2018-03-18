@@ -2,8 +2,9 @@
 namespace Gungnir\HTTP\Tests;
 
 use Gungnir\HTTP\Request;
+use \PHPUnit\Framework\TestCase;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     /**
      * This test more or less just checks so that all the different
