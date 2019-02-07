@@ -6,6 +6,33 @@ use \PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
+
+
+    /**
+     * @test
+     */
+    public function sometest()
+    {
+        $route1 = new Route('/x', [
+            'namespace' => 'x'
+        ]);
+
+        $route2 = new Route('/x/:y', [
+            'namespace' => 'xy',
+            'defaults' =>[
+                'y' => false,
+            ]
+        ]);
+
+        Route::add('route2', $route2);
+        Route::add('route1', $route1);
+
+
+        $this->assertEquals($route1->options(), Route::find('/x')->options(), 'uri /x did not match correct route');
+        $this->assertEquals($route2->options(), Route::find('/x/_y')->options(), 'uri /x/_y did not match correct route');
+        
+    }
+
     /**
      * @test
      * 

@@ -102,7 +102,9 @@ class Route
         $uri = $this->getUriParser()->parse($uri);
         $uri_pieces = $explodeURI($uri);
         $route_pieces = $explodeURI($this->uri);
-
+        if (count($uri_pieces) > count($route_pieces)) {
+            return false;
+        }
         foreach ($route_pieces as $key => $value) {
             if ($this->matchPieces($key, $value, $uri_pieces) === false) {
                 $this->parameters = array();
